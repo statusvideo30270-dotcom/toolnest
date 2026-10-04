@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolNest — Free Tools for Everyone</title>
+<meta name="description" content="Free online tools for text, creators, captions, hashtags and YouTube.">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:#111827;color:white;padding:18px 16px;position:sticky;top:0;z-index:5}
+.nav{max-width:1050px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:24px;font-weight:800}.tag{font-size:13px;opacity:.75}
+.hero{max-width:1050px;margin:24px auto;padding:28px 16px}
+.hero h1{font-size:34px;margin:0 0 10px}.hero p{color:#5b6475}
+.search{width:100%;padding:15px;border:1px solid #d7dce5;border-radius:12px;font-size:16px;background:white}
+.grid{max-width:1050px;margin:0 auto 40px;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{background:white;border:1px solid #e4e8ef;border-radius:16px;padding:18px;box-shadow:0 4px 15px #00000008}
+.card h2{font-size:19px;margin:0 0 8px}.card p{font-size:14px;color:#667085}
+textarea,input{width:100%;padding:12px;border:1px solid #d7dce5;border-radius:10px;font-size:15px;margin:7px 0}
+textarea{min-height:115px;resize:vertical}
+button{border:0;border-radius:10px;padding:11px 14px;background:#111827;color:white;font-weight:700;cursor:pointer;margin:4px 4px 4px 0}
+button.secondary{background:#e9edf3;color:#172033}.result{margin-top:9px;padding:10px;background:#f7f8fa;border-radius:10px;white-space:pre-wrap;min-height:40px}
+footer{text-align:center;padding:30px 16px;color:#667085;font-size:13px}
+.hidden{display:none}
+@media(max-width:600px){.hero h1{font-size:28px}.nav{align-items:flex-start}.tag{display:none}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div><div class="logo">ToolNest</div><div class="tag">Free Tools for Everyone</div></div></div></header>
+
+<section class="hero">
+<h1>Useful tools, all in one place</h1>
+<p>Free online tools for creators, students and everyday users.</p>
+<input class="search" id="search" placeholder="🔍 Search a tool..." oninput="filterTools()">
+</section>
+
+<main class="grid" id="tools">
+<section class="card tool" data-name="word counter text counter">
+<h2>✍️ Word Counter</h2><p>Words, characters and lines गिनें।</p>
+<textarea id="wc" placeholder="यहाँ अपना text लिखें..." oninput="countWords()"></textarea>
+<div class="result" id="wcResult">Words: 0 | Characters: 0 | Lines: 0</div>
+</section>
+
+<section class="card tool" data-name="case converter uppercase lowercase title">
+<h2>🔤 Case Converter</h2><p>Text को UPPERCASE, lowercase या Title Case में बदलें।</p>
+<textarea id="caseText" placeholder="अपना text लिखें..."></textarea>
+<button onclick="changeCase('upper')">UPPERCASE</button>
+<button onclick="changeCase('lower')">lowercase</button>
+<button onclick="changeCase('title')">Title Case</button>
+<div class="result" id="caseResult"></div>
+</section>
+
+<section class="card tool" data-name="hashtag generator hashtags instagram youtube">
+<h2>#️⃣ Hashtag Generator</h2><p>Topic डालें और hashtags तैयार करें।</p>
+<input id="topic" placeholder="जैसे: nature sunset">
+<button onclick="makeTags()">Generate</button>
+<div class="result" id="tagResult"></div>
+</section>
+
+<section class="card tool" data-name="youtube title generator creator">
+<h2>🎬 YouTube Title Generator</h2><p>अपने video का topic डालें।</p>
+<input id="ytTopic" placeholder="जैसे: Beautiful Sunset Video">
+<button onclick="makeTitles()">Generate Titles</button>
+<div class="result" id="titleResult"></div>
+</section>
+
+<section class="card tool" data-name="caption generator instagram reels">
+<h2>📱 Caption Generator</h2><p>Reels/Shorts के लिए caption ideas पाएँ।</p>
+<input id="capTopic" placeholder="जैसे: sad song, nature, love">
+<button onclick="makeCaptions()">Generate Captions</button>
+<div class="result" id="capResult"></div>
+</section>
+</main>
+
+<footer>© 2026 ToolNest • Free tools for everyone</footer>
+
+<script>
+function countWords(){
+ const t=document.getElementById('wc').value;
+ const words=t.trim()?t.trim().split(/\s+/).length:0;
+ const lines=t? t.split(/\n/).length:0;
+ document.getElementById('wcResult').textContent=`Words: ${words} | Characters: ${t.length} | Lines: ${lines}`;
+}
+function changeCase(type){
+ const t=document.getElementById('caseText').value;
+ let r=t;
+ if(type==='upper') r=t.toUpperCase();
+ if(type==='lower') r=t.toLowerCase();
+ if(type==='title') r=t.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+ document.getElementById('caseResult').textContent=r;
+}
+function makeTags(){
+ const t=document.getElementById('topic').value.trim().replace(/#/g,'');
+ if(!t){document.getElementById('tagResult').textContent='पहले topic डालें।';return}
+ const parts=t.toLowerCase().split(/\s+/).filter(Boolean);
+ const tags=[...parts.map(x=>'#'+x),'#reels','#shorts','#youtube','#viral','#trending','#contentcreator','#creator','#fyp','#explore'];
+ document.getElementById('tagResult').textContent=[...new Set(tags)].join(' ');
+}
+function makeTitles(){
+ const t=document.getElementById('ytTopic').value.trim();
+ if(!t){document.getElementById('titleResult').textContent='पहले topic डालें।';return}
+ document.getElementById('titleResult').textContent=[
+ `${t} | Free to Use`,
+ `${t} 🎥 | Free Download`,
+ `Best ${t} | Free Video`,
+ `${t} 4K UHD | Free Background Video`,
+ `Beautiful ${t} | Free Creator Resource`
+ ].join('\n');
+}
+function makeCaptions(){
+ const t=document.getElementById('capTopic').value.trim()||'your mood';
+ document.getElementById('capResult').textContent=[
+ `✨ Just a little ${t}.`,
+ `Feel the moment. ❤️`,
+ `${t} vibes only ✨`,
+ `Some moments need no words. 🌙`,
+ `This one hits different. 🖤`
+ ].join('\n');
+}
+function filterTools(){
+ const q=document.getElementById('search').value.toLowerCase();
+ document.querySelectorAll('.tool').forEach(c=>{
+   c.classList.toggle('hidden',!c.dataset.name.includes(q));
+ });
+}
+</script>
+</body>
+</html>
